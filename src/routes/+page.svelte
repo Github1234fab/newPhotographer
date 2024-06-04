@@ -1,2 +1,13 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<script>
+        import Hero from "../Components/Hero.svelte";
+import { fade, slide } from 'svelte/transition';
+
+</script>
+
+<main in:fade={{ duration: 2000 }}>
+<Hero />
+</main>
+
+<style>
+    @import './styles.css';
+</style>
