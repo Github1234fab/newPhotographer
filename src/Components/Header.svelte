@@ -1,39 +1,45 @@
 <script>
         let subMenuRef;
         let headerRef;
+        import { fade } from "svelte/transition";
 
         import { onMount } from "svelte";
 
+        //     function pour enlever le sous menu au click sur window
         onMount(() => {
                 window.addEventListener("click", () => {
                         subMenuRef.style.display = "none";
                 });
         });
 
-        //      ..................................................................................................................................................
-
+        //     function pour changer la couleur du header
         function headerBgColor() {
                 headerRef.style.backgroundColor = "rgba(0, 0, 0, 0.2)";
                 headerRef.style.transition = "0.6s ease-in-out";
                 console.log(3);
         }
-
+        //function pour enlever la couleur du header
         function headerBgColorRemove() {
                 headerRef.style.backgroundColor = "transparent";
                 headerRef.style.transition = "0.6s ease-in-out";
         }
-
+        // function pour enlever le sous menu
         function subMenuDisplayNone() {
                 setTimeout(() => {
-                        subMenuRef.style.display = "none";
-                }, 1200);
+                        subMenuRef.classList.add("fadeOut");
+                        setTimeout(() => {
+                                subMenuRef.style.display = "none";
+                                subMenuRef.classList.remove("fadeOut");
+                        }, 500); // Temps pour correspondre à la durée de l'animation
+                }, 400);
+                console.log(4);
         }
 
-        //     ................................................................................................................
-
-        //fonctions pour activer et desactiver les couleurs du header
+        //fonctions pour afficher le sous menu
         function displayMenu() {
+                subMenuRef.classList.remove("fadeOut");
                 subMenuRef.style.display = "block";
+                subMenuRef.classList.add("scale");
         }
 </script>
 
@@ -56,7 +62,42 @@
         </nav>
 </header>
 
+<div class="hidden">
+        <div class="scale"></div>
+        <div class="fadeOut"></div>
+</div>
+
 <style>
+        .hidden {
+                display: none;
+        }
+
+        .scale {
+                animation: scale 0.8s ease-in-out;
+        }
+
+        .fadeOut {
+                animation: fadeOut 0.5s ease-in-out;
+                opacity: 0;
+                transition: opacity 0.8s ease-in-out;
+        }
+        @keyframes scale {
+                0% {
+                        transform: scale(0.3);
+                }
+                100% {
+                        transform: scale(1);
+                }
+        }
+
+        @keyframes fadeOut {
+                0% {
+                        opacity: 1;
+                }
+                100% {
+                        opacity: 0;
+                }
+        }
         header {
                 display: flex;
                 justify-content: space-between;
@@ -89,7 +130,7 @@
                 right: 0;
                 bottom: 0;
                 display: none;
-                animation: scale 0.8s ease-in-out;
+                /* animation: scale 0.8s ease-in-out; */
                 background-color: rgb(255, 255, 255);
                 backdrop-filter: blur(20px);
                 z-index: 999;
@@ -129,7 +170,7 @@
         .logo:hover {
                 color: white;
         }
-
+        /* 
         @keyframes scale {
                 0% {
                         transform: scale(0.3);
@@ -138,4 +179,13 @@
                         transform: scale(1);
                 }
         }
+
+        @keyframes fadeOut {
+                0% {
+                        opacity: 1;
+                }
+                100% {
+                        opacity: 0;
+                }
+        } */
 </style>
